@@ -1,10 +1,9 @@
 <template>
   <div class="coinports">
-
     <div class="title has-text-centered">
       CoinPorts
     </div>
-
+    <h4 class="has-text-centered mb-5">The only Crypto Portfolio Manager you need!</h4>
     <form
       @submit.prevent="addCoin"
     >
@@ -14,7 +13,7 @@
             v-model="newCoinContent" 
             class="input" 
             type="text" 
-            placeholder="Add a coin"
+            placeholder="Add a coin / price / amount / date"
           >
         </p>
         <p class="control">
@@ -27,8 +26,6 @@
         </p>
       </div>
     </form>
-
-
     <div
       v-for="coin in coins" 
       class="card mb-5"
@@ -36,7 +33,6 @@
     >
       <div class="card-content">
         <div class="content">
-
           <div class="columns is-mobile is-vcentered">
             <div 
               class="column"
@@ -63,41 +59,26 @@
         </div>
       </div>
     </div>
-
   </div>
-
 </template>
 
 <script setup>
-
-  // imports
-
+  // IMPORTS
   import { ref, onMounted } from 'vue'
-  import { collection, onSnapshot, addDoc } from "firebase/firestore"
+  import { 
+    collection, onSnapshot, 
+    addDoc, deleteDoc, doc, updateDoc,
+    query, orderBy
+  } from "firebase/firestore"
   import { db } from '@/firebase'
-
-  // firebase refs
+  // FIREBASE REFS
   const coinsCollectionRef = collection(db, "coins")
-
-  // coins
-
-  const coins = ref([
-    // {
-    //   id: 'id1',
-    //   content: 'Bitcoin (BTC)',
-    //   done: false
-    // },
-    // {
-    //   id: 'id2',
-    //   content: 'Ethereum (ETH)',
-    //   done: true
-    // }
-  ])
-
-  // get coin
-  
+  const coinsCollectionQuery = query(coinsCollectionRef, orderBy("date", "desc"))
+  // COINS
+  const coins = ref([])
+  // GET COIN
   onMounted(() => {
-    onSnapshot(coinsCollectionRef, (querySnapshot) => {
+    onSnapshot(coinsCollectionQuery, (querySnapshot) => {
       const fbCoins = [];
       querySnapshot.forEach((doc) => {
         const coin = {
@@ -110,42 +91,37 @@
       coins.value = fbCoins
     });
   })
-
-  // add coin
-
+  // ADD COIN
   const newCoinContent = ref('')
-
   const addCoin = () => {
     addDoc(coinsCollectionRef, {
       content: newCoinContent.value,
-      done: false
+      done: false,
+      date: Date.now()
     });
     newCoinContent.value = ''
   }
-
-  // delete coin
-
+  // DELETE COIN
   const deleteCoin = (id) => {
-    coins.value = coins.value.filter(coin => coin.id !== id )
+    deleteDoc(doc(coinsCollectionRef, id))
   }
-
-  // toggle done
-
+  // TOGGLE DONE
   const toggleDone = (id) => {
     const index = coins.value.findIndex(coin => coin.id === id)
-    coins.value[index].done = !coins.value[index].done
+    updateDoc(doc(coinsCollectionRef, id), {
+      done: !coins.value[index].done
+    });
   }
-
 </script>
 
 <style>
   @import 'bulma/css/bulma.min.css';
+  @import '/src/App.css';
   .coinports {
-    max-width: 400px;
+    max-width: 1000px;
     padding: 20px;
     margin: 0 auto;
   }
-
   .line-through {
     text-decoration: line-through;
   }
