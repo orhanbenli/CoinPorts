@@ -1,6 +1,6 @@
 # CoinPorts
 
-This template should help get you started developing with Vue 3 in Vite.
+CoinPorts is a Vue.js & Firebase App helping investors to manage their portfolios effectively! It is the updated version of Crypto Portfolio Manager. This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
 
@@ -27,4 +27,3 @@ npm run dev
 ```sh
 npm run build
 ```
-# CoinPorts
