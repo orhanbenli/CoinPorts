@@ -6,7 +6,7 @@ CoinPorts is a Vue.js & Firebase App helping investors to manage their portfolio
 
 ![CoinPorts-1](https://user-images.githubusercontent.com/89755810/174716688-5d6a9829-3a68-4b64-891f-f63e6e143803.png)
 ![CoinPorts-2](https://user-images.githubusercontent.com/89755810/174718215-75ec1dbb-ed69-4a9c-96e8-0c757ef768e3.png)
-<img align="right" src="https://user-images.githubusercontent.com/89755810/174717934-52b4a1ab-2635-491f-bca9-92d28f35857d.png">
+<img align="right" src="https://user-images.githubusercontent.com/89755810/174718875-883b2f13-c4de-4839-a898-2c3daa4a688c.png">
 
 ## Recommended IDE Setup
 
